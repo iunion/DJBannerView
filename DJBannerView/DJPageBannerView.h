@@ -21,11 +21,13 @@
 
 @property (nonatomic, strong) UIImage *placeholderImage;
 
+// page宽
+@property (nonatomic, assign) CGFloat pageWidth;
 // page之间间隔
 @property (nonatomic, assign) CGFloat pagePadding;
 
 
-- (instancetype)initWithFrame:(CGRect)frame scrollDirection:(BannerViewScrollDirection)direction images:(NSArray *)images padding:(CGFloat)padding;
+- (instancetype)initWithFrame:(CGRect)frame scrollDirection:(BannerViewScrollDirection)direction images:(NSArray *)images pageWidth:(CGFloat)pageWidth padding:(CGFloat)padding;
 
 - (void)reloadBannerWithData:(NSArray *)images;
 

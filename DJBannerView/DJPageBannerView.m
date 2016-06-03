@@ -28,6 +28,7 @@
 // 只能奇数 5
 @property (nonatomic, assign) NSUInteger cacheSize;
 
+@property (nonatomic, weak) UIView *bgView;
 @property (nonatomic, weak) UIScrollView *scrollView;
 @property (nonatomic, weak) UIPageControl *pageControl;
 @property (nonatomic, weak) UIButton *closeButton;
@@ -54,7 +55,7 @@
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(rollingScrollAction) object:nil];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame scrollDirection:(BannerViewScrollDirection)direction images:(NSArray *)images padding:(CGFloat)padding
+- (instancetype)initWithFrame:(CGRect)frame scrollDirection:(BannerViewScrollDirection)direction images:(NSArray *)images pageWidth:(CGFloat)pageWidth padding:(CGFloat)padding
 {
     self = [super initWithFrame:frame];
 
@@ -77,8 +78,25 @@
         totalPage = _imageArray.count;
         
         _pagePadding = padding;
+        _pageWidth = pageWidth;
 
-        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
+        CGRect bgFrame;
+        // 在水平方向滚动
+        if (_scrollDirection == BannerViewScrollDirectionLandscape)
+        {
+            bgFrame = CGRectMake((self.bounds.size.width-_pageWidth)*0.5, 0, _pageWidth, self.bounds.size.height);
+        }
+        // 在垂直方向滚动
+        else if (_scrollDirection == BannerViewScrollDirectionPortait)
+        {
+            bgFrame = CGRectMake(0, (self.bounds.size.height-_pageWidth)*0.5, self.bounds.size.width, _pageWidth);
+        }
+        UIView *view = [[UIView alloc] initWithFrame:bgFrame];
+        view.backgroundColor = [UIColor clearColor];
+        _bgView = view;
+        [self addSubview:_bgView];
+        
+        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:_bgView.bounds];
         scrollView.backgroundColor = [UIColor clearColor];
         scrollView.showsHorizontalScrollIndicator = NO;
         scrollView.showsVerticalScrollIndicator = NO;
@@ -88,13 +106,13 @@
         [scrollView setClipsToBounds:NO];
 
         _scrollView = scrollView;
-        [self addSubview:_scrollView];
+        [_bgView addSubview:_scrollView];
 
         UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
         [singleTap setNumberOfTapsRequired:1];
         [singleTap setNumberOfTouchesRequired:1];
-        [_scrollView addGestureRecognizer:singleTap];
-        _scrollView.exclusiveTouch = YES;
+        [_bgView addGestureRecognizer:singleTap];
+        _bgView.exclusiveTouch = YES;
 
         // 在水平方向滚动
         if (_scrollDirection == BannerViewScrollDirectionLandscape)
@@ -114,8 +132,8 @@
             UIView *view = [[UIView alloc] initWithFrame:scrollView.bounds];
             view.backgroundColor = [UIColor clearColor];
             
-            CGRect frame = CGRectMake(_pagePadding, 0, view.frame.size.width-2*_pagePadding, view.frame.size.height);
-            UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
+            CGRect imageFrame = CGRectMake(_pagePadding, 0, view.frame.size.width-2*_pagePadding, view.frame.size.height);
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:imageFrame];
             imageView.userInteractionEnabled = YES;
             imageView.tag = Banner_StartTag+i;
             [view addSubview:imageView];
@@ -225,12 +243,12 @@
         }
         case BannerViewPageStyle_Right:
         {
-            frame.origin.x = self.frame.size.width-Banner_PageWidth-5;
+            frame.origin.x = self.bgView.frame.size.width-Banner_PageWidth-5;
             break;
         }
         case BannerViewPageStyle_Middle:
         {
-            frame.origin.x = (self.frame.size.width-Banner_PageWidth)*0.5;
+            frame.origin.x = (self.bgView.frame.size.width-Banner_PageWidth)*0.5;
             break;
         }
         default:
@@ -535,7 +553,7 @@
 
 - (void)handleTap:(UITapGestureRecognizer *)tapGesture
 {
-    CGPoint tapPoint = [tapGesture locationInView:self];
+    CGPoint tapPoint = [tapGesture locationInView:self.bgView];
 
     NSLog(@"tapPoint: %@", NSStringFromCGPoint(tapPoint));
     
@@ -546,7 +564,7 @@
         // 水平滚动
         if (self.scrollDirection == BannerViewScrollDirectionLandscape)
         {
-            CGFloat width = self.bounds.size.width;
+            CGFloat width = self.bgView.bounds.size.width;
             if (tapPoint.x <= 0)
             {
                 index = [self getPageIndex:self.currentPage-1] - startPageIndex;
@@ -563,7 +581,7 @@
         // 垂直滚动
         else if (self.scrollDirection == BannerViewScrollDirectionPortait)
         {
-            CGFloat height = self.bounds.size.height;
+            CGFloat height = self.bgView.bounds.size.height;
             if (tapPoint.y <= 0)
             {
                 index = [self getPageIndex:self.currentPage-1] - startPageIndex;
@@ -591,9 +609,12 @@
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
-    if (!CGRectContainsPoint(self.scrollView.frame, point))
+    if (!CGRectContainsPoint(self.bgView.frame, point))
     {
-        return self.scrollView;
+        if (CGRectContainsPoint(self.bounds, point))
+        {
+            return self.scrollView;
+        }
     }
     
     return [super hitTest:point withEvent:event];

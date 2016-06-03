@@ -63,7 +63,7 @@
     [bannerView startRolling];
     [self.view addSubview:bannerView];
     
-    DJPageBannerView *pageBannerView = [[DJPageBannerView alloc] initWithFrame:CGRectMake(40, bannerView.frame.origin.y+bannerView.frame.size.height+20, UI_SCREEN_WIDTH-80, (UI_SCREEN_WIDTH-80)*140/320) scrollDirection:BannerViewScrollDirectionLandscape images:dataArray padding:10];
+    DJPageBannerView *pageBannerView = [[DJPageBannerView alloc] initWithFrame:CGRectMake(0, bannerView.frame.origin.y+bannerView.frame.size.height+20, UI_SCREEN_WIDTH, (UI_SCREEN_WIDTH-80)*140/320) scrollDirection:BannerViewScrollDirectionLandscape images:dataArray pageWidth:UI_SCREEN_WIDTH-80 padding:10];
     [pageBannerView setDelegate:self];
     [pageBannerView setPageControlStyle:BannerViewPageStyle_Middle];
     [pageBannerView showClose:NO];
