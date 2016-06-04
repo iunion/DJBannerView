@@ -12,14 +12,14 @@
 
 @interface DJPageBannerView : UIView
 
-@property (nonatomic, weak) id <DJBannerViewDelegate> delegate;
+@property (nullable, nonatomic, weak) id <DJBannerViewDelegate> delegate;
 
 // scrollView滚动的方向
 @property (nonatomic, assign) BannerViewScrollDirection scrollDirection;
 
 @property (nonatomic, assign) NSTimeInterval rollingDelayTime;
 
-@property (nonatomic, strong) UIImage *placeholderImage;
+@property (nullable, nonatomic, strong) UIImage *placeholderImage;
 
 // page宽
 @property (nonatomic, assign) CGFloat pageWidth;
@@ -27,9 +27,9 @@
 @property (nonatomic, assign) CGFloat pagePadding;
 
 
-- (instancetype)initWithFrame:(CGRect)frame scrollDirection:(BannerViewScrollDirection)direction images:(NSArray *)images pageWidth:(CGFloat)pageWidth padding:(CGFloat)padding;
+- (nonnull instancetype)initWithFrame:(CGRect)frame scrollDirection:(BannerViewScrollDirection)direction images:(nullable NSArray *)images pageWidth:(CGFloat)pageWidth padding:(CGFloat)padding;
 
-- (void)reloadBannerWithData:(NSArray *)images;
+- (void)reloadBannerWithData:(nonnull NSArray *)images;
 
 - (void)setCorner:(NSInteger)cornerRadius;
 

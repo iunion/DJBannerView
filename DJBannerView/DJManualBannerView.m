@@ -86,7 +86,7 @@
     else if (self.dataSource)
     {
         self.imageArray = [[NSMutableArray alloc] initWithCapacity:0];
-        totalPage = [self.dataSource bannerViewNumberOfPages:self];
+        totalPage = [self.dataSource bannerViewCountOfPages:self];
     }
     
     self.currentPage = 0;
@@ -294,9 +294,9 @@
 
 - (void)closeBanner
 {
-    if ([self.delegate respondsToSelector:@selector(bannerViewdidClosed:)])
+    if ([self.delegate respondsToSelector:@selector(bannerViewDidClosed:)])
     {
-        [self.delegate bannerViewdidClosed:self];
+        [self.delegate bannerViewDidClosed:self];
     }
 }
 

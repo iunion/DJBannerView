@@ -12,13 +12,13 @@
 
 @interface DJManualBannerView : UIView
 
-@property (nonatomic, weak) id <DJBannerViewDelegate> delegate;
-@property (nonatomic, weak) id <DJBannerViewDataSource> dataSource;
+@property (nullable, nonatomic, weak) id <DJBannerViewDelegate> delegate;
+@property (nullable, nonatomic, weak) id <DJBannerViewDataSource> dataSource;
 
 // scrollView滚动的方向
 @property (nonatomic, assign) BannerViewScrollDirection scrollDirection;
 
-@property (nonatomic, strong) UIImage *placeholderImage;
+@property (nullable, nonatomic, strong) UIImage *placeholderImage;
 
 // page宽
 @property (nonatomic, assign) CGFloat pageWidth;
@@ -27,9 +27,9 @@
 @property (nonatomic, assign) BOOL isLeftPadding;
 
 
-- (instancetype)initWithFrame:(CGRect)frame scrollDirection:(BannerViewScrollDirection)direction images:(NSArray *)images padding:(CGFloat)padding pageWidth:(CGFloat)pageWidth dataSource:(id <DJBannerViewDataSource>)adataSource;
+- (nonnull instancetype)initWithFrame:(CGRect)frame scrollDirection:(BannerViewScrollDirection)direction images:(nullable NSArray *)images padding:(CGFloat)padding pageWidth:(CGFloat)pageWidth dataSource:(nullable id <DJBannerViewDataSource>)adataSource;
 
-- (void)reloadBannerWithData:(NSArray *)images;
+- (void)reloadBannerWithData:(nullable NSArray *)images;
 
 - (void)setCorner:(NSInteger)cornerRadius;
 

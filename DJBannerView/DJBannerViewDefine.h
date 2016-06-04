@@ -38,19 +38,19 @@ typedef NS_ENUM(NSInteger, BannerViewPageStyle)
 @optional
 //- (void)imageCachedDidFinish:(UIView *)bannerView;
 
-- (void)bannerView:(UIView *)bannerView didScrollToIndex:(NSInteger)index;
+- (void)bannerView:(nonnull UIView *)bannerView didScrollToIndex:(NSUInteger)index;
 
-- (void)bannerView:(UIView *)bannerView didSelectIndex:(NSInteger)index;
+- (void)bannerView:(nonnull UIView *)bannerView didSelectIndex:(NSUInteger)index;
 
-- (void)bannerViewdidClosed:(UIView *)bannerView;
+- (void)bannerViewDidClosed:(nonnull UIView *)bannerView;
 
 @end
 
 
 @protocol DJBannerViewDataSource <NSObject>
 
-- (NSUInteger)bannerViewNumberOfPages:(UIView *)bannerView;
-- (UIView *)bannerView:(UIView *)bannerView pageAtIndex:(NSUInteger)index;
+- (NSUInteger)bannerViewCountOfPages:(nonnull UIView *)bannerView;
+- (nonnull UIView *)bannerView:(nonnull UIView *)bannerView pageAtIndex:(NSUInteger)index;
 
 @end
 

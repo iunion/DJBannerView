@@ -13,19 +13,19 @@
 
 @interface DJBannerView : UIView
 
-@property (nonatomic, weak) id <DJBannerViewDelegate> delegate;
+@property (nullable, nonatomic, weak) id <DJBannerViewDelegate> delegate;
 
 // scrollView滚动的方向
 @property (nonatomic, assign) BannerViewScrollDirection scrollDirection;
 
 @property (nonatomic, assign) NSTimeInterval rollingDelayTime;
 
-@property (nonatomic, strong) UIImage *placeholderImage;
+@property (nullable, nonatomic, strong) UIImage *placeholderImage;
 
 
-- (instancetype)initWithFrame:(CGRect)frame scrollDirection:(BannerViewScrollDirection)direction images:(NSArray *)images;
+- (nonnull instancetype)initWithFrame:(CGRect)frame scrollDirection:(BannerViewScrollDirection)direction images:(nullable NSArray *)images;
 
-- (void)reloadBannerWithData:(NSArray *)images;
+- (void)reloadBannerWithData:(nonnull NSArray *)images;
 
 - (void)setCorner:(NSInteger)cornerRadius;
 

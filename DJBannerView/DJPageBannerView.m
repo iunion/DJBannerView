@@ -316,9 +316,9 @@
 {
     [self stopRolling];
 
-    if ([self.delegate respondsToSelector:@selector(bannerViewdidClosed:)])
+    if ([self.delegate respondsToSelector:@selector(bannerViewDidClosed:)])
     {
-        [self.delegate bannerViewdidClosed:self];
+        [self.delegate bannerViewDidClosed:self];
     }
 }
 
