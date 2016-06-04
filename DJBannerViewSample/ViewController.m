@@ -9,16 +9,21 @@
 #import "ViewController.h"
 #import "DJBannerView.h"
 #import "DJPageBannerView.h"
+#import "DJManualBannerView.h"
+#import "UIImageView+WebCache.h"
 
 #define UI_SCREEN_WIDTH                 ([[UIScreen mainScreen] bounds].size.width)
 #define UI_SCREEN_HEIGHT                ([[UIScreen mainScreen] bounds].size.height)
 
 @interface ViewController ()
 <
-    DJBannerViewDelegate
+    DJBannerViewDelegate,
+    DJBannerViewDataSource
 >
 
 @property (nonatomic, strong) DJBannerView *bannerView;
+
+@property (nonatomic, strong) DJManualBannerView *manualBannerView;
 
 @end
 
@@ -68,11 +73,47 @@
     [pageBannerView setPageControlStyle:BannerViewPageStyle_Middle];
     [pageBannerView showClose:NO];
     [self.view addSubview:pageBannerView];
+    
+    self.manualBannerView = [[DJManualBannerView alloc] initWithFrame:CGRectMake(0, pageBannerView.frame.origin.y+pageBannerView.frame.size.height+20, UI_SCREEN_WIDTH, 60) scrollDirection:BannerViewScrollDirectionLandscape images:nil padding:20.0f pageWidth:160 dataSource:self];
+    //[self.m_ManualScrollView setCorner:6];
+    self.manualBannerView.isLeftPadding = YES;
+    [self.manualBannerView setPageControlStyle:BannerViewPageStyle_None];
+    [self.manualBannerView reloadBannerWithData:nil];
+    [self.view addSubview:self.manualBannerView];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+
+#pragma mark -
+#pragma mark MQBannerViewDataSource
+
+- (NSUInteger)bannerViewNumberOfPages:(UIView *)bannerView
+{
+    return 4;
+}
+
+- (UIView *)bannerView:(UIView *)bannerView pageAtIndex:(NSUInteger)index
+{
+    NSMutableArray *dataArray = [NSMutableArray arrayWithCapacity:0];
+    NSString *imageUrl = @"http://pic01.babytreeimg.com/foto3/photos/2014/0211/68/2/4170109a41ca935610bf8_b.png";
+    [dataArray addObject:imageUrl];
+    imageUrl = @"http://pic01.babytreeimg.com/foto3/photos/2014/0127/19/9/4170109a267ca641c41ebb_b.png";
+    [dataArray addObject:imageUrl];
+    imageUrl = @"http://pic02.babytreeimg.com/foto3/photos/2014/0207/59/4/4170109a17eca86465f8a4_b.jpg";
+    [dataArray addObject:imageUrl];
+    imageUrl = @"http://pic01.babytreeimg.com/foto3/photos/2014/0124/18/3/4170109a253ca5b0d88192_b.png";
+    [dataArray addObject:imageUrl];
+
+    UIImageView *imageView  = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 160, 60)];
+    [imageView sd_setImageWithURL:[NSURL URLWithString:dataArray[index]] placeholderImage:nil options:SDWebImageRetryFailed|SDWebImageLowPriority];
+    
+    return imageView;
+}
+
 
 @end

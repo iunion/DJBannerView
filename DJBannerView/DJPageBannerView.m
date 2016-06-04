@@ -93,8 +93,15 @@
         }
         UIView *view = [[UIView alloc] initWithFrame:bgFrame];
         view.backgroundColor = [UIColor clearColor];
+        view.clipsToBounds = NO;
         _bgView = view;
         [self addSubview:_bgView];
+
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+        [singleTap setNumberOfTapsRequired:1];
+        [singleTap setNumberOfTouchesRequired:1];
+        [_bgView addGestureRecognizer:singleTap];
+        _bgView.exclusiveTouch = YES;
         
         UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:_bgView.bounds];
         scrollView.backgroundColor = [UIColor clearColor];
@@ -103,16 +110,10 @@
         scrollView.scrollsToTop = NO;
         scrollView.pagingEnabled = YES;
         scrollView.delegate = self;
-        [scrollView setClipsToBounds:NO];
+        scrollView.clipsToBounds = NO;
 
         _scrollView = scrollView;
         [_bgView addSubview:_scrollView];
-
-        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
-        [singleTap setNumberOfTapsRequired:1];
-        [singleTap setNumberOfTouchesRequired:1];
-        [_bgView addGestureRecognizer:singleTap];
-        _bgView.exclusiveTouch = YES;
 
         // 在水平方向滚动
         if (_scrollDirection == BannerViewScrollDirectionLandscape)
@@ -243,12 +244,12 @@
         }
         case BannerViewPageStyle_Right:
         {
-            frame.origin.x = self.bgView.frame.size.width-Banner_PageWidth-5;
+            frame.origin.x = self.frame.size.width-Banner_PageWidth-5;
             break;
         }
         case BannerViewPageStyle_Middle:
         {
-            frame.origin.x = (self.bgView.frame.size.width-Banner_PageWidth)*0.5;
+            frame.origin.x = (self.frame.size.width-Banner_PageWidth)*0.5;
             break;
         }
         default:

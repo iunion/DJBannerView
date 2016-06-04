@@ -25,6 +25,7 @@
 		5A11D6DE1D002D1A00842AFC /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A11D6CD1D002D1A00842AFC /* UIImageView+WebCache.m */; };
 		5A11D6DF1D002D1A00842AFC /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A11D6CF1D002D1A00842AFC /* UIView+WebCacheOperation.m */; };
 		5A11D6E21D01146900842AFC /* DJPageBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A11D6E11D01146900842AFC /* DJPageBannerView.m */; };
+		5A11D6E51D01795100842AFC /* DJManualBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A11D6E41D01795100842AFC /* DJManualBannerView.m */; };
 		5A3A94F31CFFFAC500D5D7A9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3A94F21CFFFAC500D5D7A9 /* main.m */; };
 		5A3A94F61CFFFAC500D5D7A9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3A94F51CFFFAC500D5D7A9 /* AppDelegate.m */; };
 		5A3A94F91CFFFAC500D5D7A9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3A94F81CFFFAC500D5D7A9 /* ViewController.m */; };
@@ -91,6 +92,8 @@
 		5A11D6CF1D002D1A00842AFC /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
 		5A11D6E01D01146900842AFC /* DJPageBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DJPageBannerView.h; sourceTree = "<group>"; };
 		5A11D6E11D01146900842AFC /* DJPageBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DJPageBannerView.m; sourceTree = "<group>"; };
+		5A11D6E31D01795100842AFC /* DJManualBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DJManualBannerView.h; sourceTree = "<group>"; };
+		5A11D6E41D01795100842AFC /* DJManualBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DJManualBannerView.m; sourceTree = "<group>"; };
 		5A3A94EE1CFFFAC500D5D7A9 /* DJBannerViewSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DJBannerViewSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A3A94F21CFFFAC500D5D7A9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5A3A94F41CFFFAC500D5D7A9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -259,6 +262,8 @@
 				5A11D6AB1D002B1100842AFC /* DJBannerView.m */,
 				5A11D6E01D01146900842AFC /* DJPageBannerView.h */,
 				5A11D6E11D01146900842AFC /* DJPageBannerView.m */,
+				5A11D6E31D01795100842AFC /* DJManualBannerView.h */,
+				5A11D6E41D01795100842AFC /* DJManualBannerView.m */,
 			);
 			path = DJBannerView;
 			sourceTree = "<group>";
@@ -420,6 +425,7 @@
 				5A11D6D11D002D1A00842AFC /* NSData+ImageContentType.m in Sources */,
 				5A3A94F31CFFFAC500D5D7A9 /* main.m in Sources */,
 				5A11D6D71D002D1A00842AFC /* SDWebImageManager.m in Sources */,
+				5A11D6E51D01795100842AFC /* DJManualBannerView.m in Sources */,
 				5A11D6E21D01146900842AFC /* DJPageBannerView.m in Sources */,
 				5A11D6D41D002D1A00842AFC /* SDWebImageDecoder.m in Sources */,
 				5A11D6D21D002D1A00842AFC /* SDImageCache.m in Sources */,

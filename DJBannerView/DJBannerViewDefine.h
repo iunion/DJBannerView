@@ -11,6 +11,8 @@
 
 
 #define Banner_StartTag         1000
+#define Banner_CStartTag        2000
+
 #define Banner_PageHeight       15.0f
 #define Banner_PageWidth        60.0f
 #define Banner_PageBottomGap    3.0f
