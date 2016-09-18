@@ -52,6 +52,7 @@
 {
     _delegate = nil;
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(rollingScrollAction) object:nil];
 }
 
@@ -166,7 +167,7 @@
 
 - (void)setRollingDelayTime:(NSTimeInterval)rollingDelayTime
 {
-    if (rollingDelayTime == 0)
+    if (rollingDelayTime <= 0)
     {
         [self stopRolling];
         
@@ -442,16 +443,26 @@
         return;
     }
     
+    if (self.rollingDelayTime < 1)
+    {
+        return;
+    }
+    
     [self stopRolling];
     
     isRolling = YES;
     //NSLog(@"startRolling performSelector");
     [self performSelector:@selector(rollingScrollAction) withObject:nil afterDelay:self.rollingDelayTime inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshRolling) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 - (void)stopRolling
 {
     isRolling = NO;
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
     //取消已加入的延迟线程
     //NSLog(@"stopRolling cancelPreviousPerformRequestsWithTarget");
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(rollingScrollAction) object:nil];
