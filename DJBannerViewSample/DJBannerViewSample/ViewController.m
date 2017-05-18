@@ -7,10 +7,10 @@
 //
 
 #import "ViewController.h"
-#import "DJBannerView.h"
-#import "DJPageBannerView.h"
-#import "DJManualBannerView.h"
-#import "UIImageView+WebCache.h"
+#import <DJBannerView/DJBannerView.h>
+#import <DJBannerView/DJPageBannerView.h>
+#import <DJBannerView/DJManualBannerView.h>
+#import <SDWebImage/UIImageView+WebCache.h>
 
 #define UI_SCREEN_WIDTH                 ([[UIScreen mainScreen] bounds].size.width)
 #define UI_SCREEN_HEIGHT                ([[UIScreen mainScreen] bounds].size.height)
