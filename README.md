@@ -42,8 +42,8 @@ All source code is licensed under the [MIT License](https://github.com/iunion/DJ
 
 ### BannerViewScrollDirection
 
-- `BannerViewScrollDirectionLandscape`  /** 水平滚动 **/
-- `BannerViewScrollDirectionPortait`    /** 垂直滚动 **/
+- `BannerViewScrollDirectionLandscape  /** 水平滚动 **/`
+- `BannerViewScrollDirectionPortait    /** 垂直滚动 **/`
 
 ### BannerViewPageStyle
 
@@ -87,5 +87,5 @@ self.manualBannerView.hasLeftPadding = YES;
 ```
 
 ## Author
-- [DEnnis Deng](https://github.com/iunion)
+- [Dennis Deng](https://github.com/iunion)
 
