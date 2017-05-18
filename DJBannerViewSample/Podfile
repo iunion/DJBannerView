@@ -1,0 +1,5 @@
+project 'DJBannerViewSample.xcodeproj'
+platform :ios, '7.0'
+target "DJBannerViewSample" do
+    pod 'DJBannerView', :path => '../'
+end
