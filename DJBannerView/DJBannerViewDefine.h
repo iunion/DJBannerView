@@ -17,6 +17,7 @@
 #define Banner_PageWidth        60.0f
 #define Banner_PageBottomGap    3.0f
 
+// scrollView滚动的方向
 typedef NS_ENUM(NSInteger, BannerViewScrollDirection)
 {
     // 水平滚动
@@ -25,6 +26,7 @@ typedef NS_ENUM(NSInteger, BannerViewScrollDirection)
     BannerViewScrollDirectionPortait
 };
 
+// PageControl位置
 typedef NS_ENUM(NSInteger, BannerViewPageStyle)
 {
     BannerViewPageStyle_None,
@@ -38,10 +40,13 @@ typedef NS_ENUM(NSInteger, BannerViewPageStyle)
 @optional
 //- (void)imageCachedDidFinish:(UIView *)bannerView;
 
+// banner滚动完成
 - (void)bannerView:(nonnull UIView *)bannerView didScrollToIndex:(NSUInteger)index;
 
+// banner点击事件
 - (void)bannerView:(nonnull UIView *)bannerView didSelectIndex:(NSUInteger)index;
 
+// banner关闭
 - (void)bannerViewDidClosed:(nonnull UIView *)bannerView;
 
 @end
@@ -49,7 +54,9 @@ typedef NS_ENUM(NSInteger, BannerViewPageStyle)
 
 @protocol DJBannerViewDataSource <NSObject>
 
+// page数量
 - (NSUInteger)bannerViewCountOfPages:(nonnull UIView *)bannerView;
+// 自定义pageView
 - (nonnull UIView *)bannerView:(nonnull UIView *)bannerView pageAtIndex:(NSUInteger)index;
 
 @end

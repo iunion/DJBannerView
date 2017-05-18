@@ -67,20 +67,20 @@
     [bannerView setRollingDelayTime:2.0f];
     [bannerView setDelegate:self];
     [bannerView setPageControlStyle:BannerViewPageStyle_Middle];
-    [bannerView showClose:YES];
+    [bannerView setShowClose:YES];
     [bannerView startRolling];
     [self.view addSubview:bannerView];
     
     DJPageBannerView *pageBannerView = [[DJPageBannerView alloc] initWithFrame:CGRectMake(0, bannerView.frame.origin.y+bannerView.frame.size.height+20.0f, UI_SCREEN_WIDTH, (UI_SCREEN_WIDTH-80.0f)*140/320) scrollDirection:BannerViewScrollDirectionLandscape images:dataArray pageWidth:UI_SCREEN_WIDTH-80.0f padding:10.0f];
     [pageBannerView setDelegate:self];
     [pageBannerView setPageControlStyle:BannerViewPageStyle_Middle];
-    [pageBannerView showClose:NO];
+    pageBannerView.showClose = NO;
     [pageBannerView setCorner:8.0f];
     [self.view addSubview:pageBannerView];
     
     self.manualBannerView = [[DJManualBannerView alloc] initWithFrame:CGRectMake(0.0f, pageBannerView.frame.origin.y+pageBannerView.frame.size.height+20.0f, UI_SCREEN_WIDTH, Image_Height) scrollDirection:BannerViewScrollDirectionLandscape images:nil padding:20.0f pageWidth:Image_Width dataSource:self];
     //[self.m_ManualScrollView setCorner:6];
-    self.manualBannerView.isLeftPadding = YES;
+    self.manualBannerView.hasLeftPadding = YES;
     [self.manualBannerView setPageControlStyle:BannerViewPageStyle_None];
     [self.manualBannerView reloadBannerWithData:nil];
     [self.manualBannerView setCorner:6.0f];

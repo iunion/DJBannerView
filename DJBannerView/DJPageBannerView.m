@@ -46,6 +46,7 @@
 
 @end
 
+
 @implementation DJPageBannerView
 
 - (void)dealloc
@@ -74,6 +75,7 @@
         
         // 第一张图片在图片数组的位置
         startPageIndex = _cacheSize/2;
+        // 滚动从第一张开始
         _currentPage = startPageIndex;
         
         totalPage = _imageArray.count;
@@ -179,7 +181,7 @@
     self.currentPage = startPageIndex;
     
     totalPage = self.imageArray.count;
-    
+
     self.pageControl.numberOfPages = totalPage;
     self.pageControl.currentPage = 0;
     
@@ -192,7 +194,7 @@
 
 - (void)setRollingDelayTime:(NSTimeInterval)rollingDelayTime
 {
-    if (rollingDelayTime == 0)
+    if (rollingDelayTime <= 0)
     {
         [self stopRolling];
         
@@ -230,7 +232,7 @@
 - (void)setPageControlStyle:(BannerViewPageStyle)pageStyle
 {
     CGRect frame = self.pageControl.frame;
-    
+
     switch (pageStyle)
     {
         case BannerViewPageStyle_None:
@@ -281,11 +283,7 @@
     }
 }
 
-
-#pragma mark -
-#pragma mark action
-
-- (void)showClose:(BOOL)show
+- (void)setShowClose:(BOOL)show
 {
     if (show)
     {
@@ -312,6 +310,10 @@
         }
     }
 }
+
+
+#pragma mark -
+#pragma mark action
 
 - (void)closeBanner
 {
@@ -374,7 +376,8 @@
     }
     
     NSMutableArray *images = [NSMutableArray arrayWithCapacity:0];
-    for (NSUInteger i=self.currentPage-startPageIndex; i<=self.currentPage+startPageIndex; i++)
+    // 取cacheSize大小范围的数据，这里就是为什么是奇数
+    for (NSUInteger i=page-startPageIndex; i<=page+startPageIndex; i++)
     {
         NSInteger index = [self getPageIndex:i]-startPageIndex;
         [images addObject:self.imageArray[index]];
@@ -383,6 +386,7 @@
     return images;
 }
 
+// 从视觉index转换为存储index
 - (NSInteger)getPageIndex:(NSInteger)index
 {
     if (totalPage == 1)
@@ -404,9 +408,9 @@
     NSInteger y = aScrollView.contentOffset.y;
     //NSLog(@"did  x=%d  y=%d", x, y);
     
-    //取消已加入的延迟线程
     if (isRolling)
     {
+        // 用于手动拖动时取消已加入的滚动延迟线程
         //NSLog(@"scrollViewDidScroll cancelPreviousPerformRequestsWithTarget");
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(rollingScrollAction) object:nil];
     }
@@ -445,7 +449,6 @@
     }
 }
 
-
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)aScrollView
 {
     //NSInteger x = aScrollView.contentOffset.x;
@@ -466,6 +469,7 @@
     
     if (isRolling)
     {
+        // 用于手动拖动时继续继续滚动
         //NSLog(@"scrollViewDidEndDecelerating performSelector");
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(rollingScrollAction) object:nil];
         [self performSelector:@selector(rollingScrollAction) withObject:nil afterDelay:self.rollingDelayTime inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
@@ -508,15 +512,16 @@
     //NSLog(@"startRolling performSelector");
     [self performSelector:@selector(rollingScrollAction) withObject:nil afterDelay:self.rollingDelayTime inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
     
+    // 从后台回来后重新启动动画
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshRolling) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 - (void)stopRolling
 {
     isRolling = NO;
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
+
     //取消已加入的延迟线程
     //NSLog(@"stopRolling cancelPreviousPerformRequestsWithTarget");
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(rollingScrollAction) object:nil];
@@ -566,8 +571,7 @@
 - (void)handleTap:(UITapGestureRecognizer *)tapGesture
 {
     CGPoint tapPoint = [tapGesture locationInView:self.bgView];
-
-    NSLog(@"tapPoint: %@", NSStringFromCGPoint(tapPoint));
+    //NSLog(@"tapPoint: %@", NSStringFromCGPoint(tapPoint));
     
     NSUInteger index = 0;
     

@@ -3,10 +3,9 @@ Pod::Spec.new do |s|
   s.version     = '1.0'
   s.authors     = { 'Dennis Deng' => 'iunion@live.cn' }
   s.homepage    = 'https://github.com/iunion/DJBannerView'
-  s.summary     = 'Powerful data driven content manager for UITableView.'
+  s.summary     = 'A ViewPager that can scroll automatically.'
   s.source      = { :git => 'https://github.com/iunion/DJBannerView.git', :tag => s.version.to_s }
-#s.license     = { :type => "MIT", :file => "LICENSE" }
-  s.license     = { :type => "MIT"}
+  s.license     = { :type => "MIT", :file => "LICENSE" }
 
   s.platform = :ios, '7.0'
   s.requires_arc = true

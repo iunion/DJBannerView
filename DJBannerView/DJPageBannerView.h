@@ -17,6 +17,7 @@
 // scrollView滚动的方向
 @property (nonatomic, assign) BannerViewScrollDirection scrollDirection;
 
+// 滚动间隔
 @property (nonatomic, assign) NSTimeInterval rollingDelayTime;
 
 @property (nullable, nonatomic, strong) UIImage *placeholderImage;
@@ -29,19 +30,23 @@
 
 - (nonnull instancetype)initWithFrame:(CGRect)frame scrollDirection:(BannerViewScrollDirection)direction images:(nullable NSArray *)images pageWidth:(CGFloat)pageWidth padding:(CGFloat)padding;
 
+// 刷新数据
 - (void)reloadBannerWithData:(nonnull NSArray *)images;
-
+// 设置圆角
 - (void)setCorner:(NSInteger)cornerRadius;
-
+// 设置PageControl类型
 - (void)setPageControlStyle:(BannerViewPageStyle)pageStyle;
 
-// 解决切换View滚动停止问题
+// 解决切换View滚动停止问题，会导致重新开始pageIndex
 - (void)refreshRolling;
 
+// 开始滚动
 - (void)startRolling;
+// 停止滚动
 - (void)stopRolling;
 
-- (void)showClose:(BOOL)show;
+// 是否显示关闭按钮
+- (void)setShowClose:(BOOL)show;
 
 @end
 

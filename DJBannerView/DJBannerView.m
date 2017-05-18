@@ -59,7 +59,7 @@
 - (instancetype)initWithFrame:(CGRect)frame scrollDirection:(BannerViewScrollDirection)direction images:(NSArray *)images
 {
     self = [super initWithFrame:frame];
-    
+
     if (self)
     {
         self.clipsToBounds = YES;
@@ -74,6 +74,7 @@
         
         // 第一张图片在图片数组的位置
         startPageIndex = _cacheSize/2;
+        // 滚动从第一张开始
         _currentPage = startPageIndex;
         
         totalPage = _imageArray.count;
@@ -86,10 +87,10 @@
         scrollView.pagingEnabled = YES;
         scrollView.delegate = self;
         [scrollView setClipsToBounds:NO];
-        
+
         _scrollView = scrollView;
         [self addSubview:_scrollView];
-        
+
         // 在水平方向滚动
         if (_scrollDirection == BannerViewScrollDirectionLandscape)
         {
@@ -102,7 +103,7 @@
             scrollView.contentSize = CGSizeMake(scrollView.frame.size.width,
                                                 scrollView.frame.size.height * _cacheSize);
         }
-        
+
         for (NSInteger i = 0; i < _cacheSize; i++)
         {
             UIImageView *imageView = [[UIImageView alloc] initWithFrame:scrollView.bounds];
@@ -114,7 +115,7 @@
             [singleTap setNumberOfTouchesRequired:1];
             [imageView addGestureRecognizer:singleTap];
             imageView.exclusiveTouch = YES;
-            
+
             // 水平滚动
             if (_scrollDirection == BannerViewScrollDirectionLandscape)
             {
@@ -128,13 +129,13 @@
             
             [scrollView addSubview:imageView];
         }
-        
+
         UIPageControl *pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(5, frame.size.height-(Banner_PageHeight+Banner_PageBottomGap), Banner_PageWidth, Banner_PageHeight)];
         pageControl.numberOfPages = _imageArray.count;
         _pageControl = pageControl;
         pageControl.userInteractionEnabled = NO;
         [self addSubview:pageControl];
-        
+
         pageControl.currentPage = 0;
         
         [self refreshScrollView];
@@ -173,7 +174,7 @@
         
         return;
     }
-    
+
     if (rollingDelayTime < 1)
     {
         rollingDelayTime = 1;
@@ -232,7 +233,7 @@
     self.pageControl.hidden = NO;
 }
 
-- (void)showClose:(BOOL)show
+- (void)setShowClose:(BOOL)show
 {
     if (show)
     {
@@ -263,7 +264,7 @@
 - (void)closeBanner
 {
     [self stopRolling];
-    
+
     if ([self.delegate respondsToSelector:@selector(bannerViewDidClosed:)])
     {
         [self.delegate bannerViewDidClosed:self];
@@ -321,7 +322,8 @@
     }
     
     NSMutableArray *images = [NSMutableArray arrayWithCapacity:0];
-    for (NSUInteger i=self.currentPage-startPageIndex; i<=self.currentPage+startPageIndex; i++)
+    // 取cacheSize大小范围的数据，这里就是为什么是奇数
+    for (NSUInteger i=page-startPageIndex; i<=page+startPageIndex; i++)
     {
         NSInteger index = [self getPageIndex:i]-startPageIndex;
         [images addObject:self.imageArray[index]];
@@ -330,6 +332,7 @@
     return images;
 }
 
+// 从视觉index转换为存储index
 - (NSInteger)getPageIndex:(NSInteger)index
 {
     if (totalPage == 1)
@@ -351,9 +354,9 @@
     NSInteger y = aScrollView.contentOffset.y;
     //NSLog(@"did  x=%d  y=%d", x, y);
     
-    //取消已加入的延迟线程
     if (isRolling)
     {
+        // 用于手动拖动时取消已加入的滚动延迟线程
         //NSLog(@"scrollViewDidScroll cancelPreviousPerformRequestsWithTarget");
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(rollingScrollAction) object:nil];
     }
@@ -412,6 +415,7 @@
     
     if (isRolling)
     {
+        // 用于手动拖动时继续继续滚动
         //NSLog(@"scrollViewDidEndDecelerating performSelector");
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(rollingScrollAction) object:nil];
         [self performSelector:@selector(rollingScrollAction) withObject:nil afterDelay:self.rollingDelayTime inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
@@ -454,6 +458,7 @@
     //NSLog(@"startRolling performSelector");
     [self performSelector:@selector(rollingScrollAction) withObject:nil afterDelay:self.rollingDelayTime inModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
     
+    // 从后台回来后重新启动动画
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshRolling) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
@@ -461,9 +466,9 @@
 {
     isRolling = NO;
 
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    //取消已加入的延迟线程
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
+
+    // 取消已加入的延迟线程
     //NSLog(@"stopRolling cancelPreviousPerformRequestsWithTarget");
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(rollingScrollAction) object:nil];
 }
@@ -472,7 +477,7 @@
 {
     //NSLog(@"rollingScrollAction");
     //NSLog(@"%@", NSStringFromCGPoint(scrollView.contentOffset));
-    
+
     [UIView animateWithDuration:0.25 animations:^{
         // 水平滚动
         if (self.scrollDirection == BannerViewScrollDirectionLandscape)

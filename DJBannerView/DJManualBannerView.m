@@ -21,9 +21,7 @@
 @property (nonatomic, weak) UIScrollView *scrollView;
 
 @property (nonatomic, weak) UIPageControl *pageControl;
-
 @property (nonatomic, weak) UIButton *closeButton;
-
 
 // 存放所有需要滚动的图片URL NSString
 @property (nonatomic, strong) NSMutableArray *imageArray;
@@ -109,7 +107,7 @@
         {
             addView = [self.dataSource bannerView:self pageAtIndex:i];
             NSAssert(addView, @"Cannot show the pages!");
-            if (self.isLeftPadding)
+            if (self.hasLeftPadding)
             {
                 addView.frame = CGRectMake(self.padding, 0, view.bounds.size.width-self.padding, view.bounds.size.height);
             }
@@ -124,7 +122,7 @@
         else
         {
             CGRect frame;
-            if (self.isLeftPadding)
+            if (self.hasLeftPadding)
             {
                 frame = CGRectMake(self.padding, 0, view.bounds.size.width-self.padding, view.bounds.size.height);
             }
@@ -202,7 +200,7 @@
 - (void)setPageControlStyle:(BannerViewPageStyle)pageStyle
 {
     CGRect frame = self.pageControl.frame;
-    
+
     switch (pageStyle)
     {
         case BannerViewPageStyle_None:
@@ -233,7 +231,7 @@
     self.pageControl.hidden = NO;
 }
 
-- (void)setM_Padding:(CGFloat)padding
+- (void)setPadding:(CGFloat)padding
 {
     if (padding < 0)
     {
@@ -247,7 +245,7 @@
         if (view)
         {
             CGRect frame;
-            if (self.isLeftPadding)
+            if (self.hasLeftPadding)
             {
                 frame = CGRectMake(self.padding, 0, self.scrollView.bounds.size.width-self.padding, self.scrollView.bounds.size.height);
             }
@@ -260,11 +258,7 @@
     }
 }
 
-
-#pragma mark -
-#pragma mark action
-
-- (void)showClose:(BOOL)show
+- (void)setShowClose:(BOOL)show
 {
     if (show)
     {
@@ -291,6 +285,10 @@
         }
     }
 }
+
+
+#pragma mark -
+#pragma mark action
 
 - (void)closeBanner
 {
