@@ -83,7 +83,7 @@
         _pagePadding = padding;
         _pageWidth = pageWidth;
 
-        CGRect bgFrame;
+        CGRect bgFrame = CGRectZero;
         // 在水平方向滚动
         if (_scrollDirection == BannerViewScrollDirectionLandscape)
         {

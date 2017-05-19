@@ -3,6 +3,8 @@ DJBannerView
 
 A ViewPager that can scroll automatically. <br/>
 
+## Screenshots
+
 ![image](/gif/demo.gif)
 
 ## Requirements
@@ -10,7 +12,7 @@ A ViewPager that can scroll automatically. <br/>
 - iOS 7.0 or later
 - Xcode 7.3 or later
 
-# Installation
+## Installation
 
 1. 在 `Podfile` 中添加 `pod 'DJBannerView'`。
 ```ruby
